@@ -1,7 +1,7 @@
 <img src="assets/detailed_title_page.png" alt="AI-physics" width="720">
 
 
-Lecture notes for a three-lecture series at the Cavendish Laboratory,
+Lecture notes for a three-lecture series, for the Theory of Condensed Matter group, Cavendish Laboratory,
 University of Cambridge.
 
 [Lecture 1](slides/alexmatthews_attention_transformers.pdf): A Hitchhiker’s Guide to Transformers and Attention
