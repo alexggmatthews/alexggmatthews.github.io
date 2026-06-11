@@ -1,6 +1,5 @@
-# Cambridge lectures
+<img src="assets/detailed_title_page.png" alt="AI-physics" width="720">
 
-## Concepts at the AI–Physics Interface
 
 Lecture notes for a three-lecture series at the Cavendish Laboratory,
 University of Cambridge.
