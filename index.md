@@ -4,7 +4,7 @@
 
 **Member of Technical Staff, CuspAI**  
 **Distinguished Visitor, Cavendish Laboratory, University of Cambridge**  
-**Formerly Staff Scientist, Google DeepMind**
+**Formerly Staff Research Scientist, Google DeepMind**
 
 I work on machine learning theory, AI for science, probabilistic modelling,
 generative modelling, and the AI–physics interface.
