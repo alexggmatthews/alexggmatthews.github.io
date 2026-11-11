@@ -1,0 +1,143 @@
+/* Showcase deck theme: the demo deck's look plus the controls its interactive slides use. A slide script
+   changes only attributes (hidden, aria-pressed, data-step, a box's width); these rules do the rest. */
+:root {
+  --cs-accent: #0b7a75;
+}
+
+.flow-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 36px;
+  border: 3px solid var(--cs-accent);
+  border-radius: 16px;
+  background: var(--cs-accent-soft);
+}
+.flow-box h3 { color: var(--cs-accent); }
+.flow-arrow { font-size: 72px; color: var(--cs-accent); text-align: center; line-height: 1; }
+
+/* Buttons and sliders, sized for the 1920 px canvas */
+.pill {
+  font: 500 var(--cs-small) var(--cs-font);
+  color: var(--cs-accent);
+  background: var(--cs-bg);
+  border: 3px solid var(--cs-accent);
+  border-radius: 999px;
+  padding: 10px 32px;
+  cursor: pointer;
+}
+.pill[aria-pressed="true"] { color: var(--cs-bg); background: var(--cs-accent); }
+.pill-row { display: flex; gap: 20px; align-items: center; }
+
+.controls { display: flex; flex-direction: column; gap: 30px; }
+.controls label { display: flex; flex-direction: column; gap: 6px; font-size: var(--cs-small); }
+.controls label > span { display: flex; justify-content: space-between; }
+.controls output { font-weight: 600; color: var(--cs-accent); font-variant-numeric: tabular-nums; }
+.controls input[type="range"] { width: 100%; height: 40px; margin: 0; accent-color: var(--cs-accent); cursor: pointer; }
+.readout { display: grid; grid-template-columns: 1fr auto; gap: 8px 24px; padding: 24px 28px; border-radius: 12px; background: var(--cs-accent-soft); font-size: var(--cs-small); }
+.readout output { font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+
+/* Step-through: the section's data-step reveals steps 1..n; without it (or while editing) all show */
+.step { transition: opacity 0.35s, transform 0.35s; }
+[data-step="1"] .step:is([data-n="2"], [data-n="3"], [data-n="4"]),
+[data-step="2"] .step:is([data-n="3"], [data-n="4"]),
+[data-step="3"] .step[data-n="4"] { opacity: 0.18; transform: translateY(16px); }
+html[data-mode="edit"] .step { opacity: 1 !important; transform: none !important; }
+.step .tag { font-size: var(--cs-small); font-weight: 600; color: var(--cs-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* Tabs and click-to-inspect panes: only the pane without `hidden` shows */
+[data-pane][hidden] { display: none; }
+.pane { padding: 40px 48px; border-radius: 16px; border: 3px solid var(--cs-rule); display: flex; flex-direction: column; gap: 24px; }
+.formula { font-size: 44px; color: var(--cs-accent); }
+
+/* Periodic-table-style grid of metals */
+.ptable { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(3, 1fr); gap: 10px; }
+.ptable .ghost { display: flex; align-items: center; justify-content: center; font-size: 28px; color: #a3afb8; border: 2px solid var(--cs-rule); border-radius: 10px; }
+.ptable button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font: 600 40px var(--cs-font);
+  color: var(--cs-fg);
+  background: var(--cs-accent-soft);
+  border: 3px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.ptable button small { font-size: 20px; font-weight: 400; color: var(--cs-muted); }
+.ptable button:hover { transform: scale(1.06); }
+.ptable button[aria-pressed="true"] { border-color: var(--cs-accent); background: var(--cs-bg); }
+.facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 28px; font-size: var(--cs-small); }
+.facts dt { color: var(--cs-muted); }
+.facts dd { margin: 0; overflow-wrap: break-word; }
+
+/* Responsive figure: the box is a size container; its layout follows its own width, not the canvas */
+.fit {
+  container-type: inline-size;
+  padding: 32px;
+  border: 3px solid var(--cs-rule);
+  border-radius: 16px;
+  transition: width 0.4s ease;
+}
+.fit .inner { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; min-height: 0; height: 100%; }
+.fit .stats { display: flex; flex-direction: column; justify-content: center; gap: 28px; }
+.fit .stat { padding: 20px 28px; border-radius: 12px; background: var(--cs-accent-soft); }
+.fit .stat b { display: block; font-size: 48px; color: var(--cs-accent); font-weight: 600; }
+.fit .stat span { font-size: 24px; color: var(--cs-muted); }
+@container (max-width: 1000px) {
+  .fit .inner { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  .fit .stats { flex-direction: row; }
+  .fit .stat { flex: 1; padding: 16px 20px; }
+  .fit .stat b { font-size: 30px; white-space: nowrap; }
+}
+
+/* Title animation; still for people who ask for less motion */
+.drift { animation: drift 6s ease-in-out infinite; }
+@keyframes drift {
+  0% { transform: translate(-260px, 0); opacity: 0; }
+  15% { opacity: 1; }
+  45%, 80% { transform: translate(0, 0); opacity: 1; }
+  100% { transform: translate(0, 0); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .drift { animation: none; } }
+
+/* Perovskite tilts: tilt-system buttons and the octahedra seen down c (layer z = 0 filled, z = 1 outlined) */
+.tilt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.tilt-grid .pill { font-size: 34px; padding: 8px 0; }
+.controls input[type="range"]:disabled { opacity: 0.3; cursor: default; }
+.sketch svg { width: 100%; height: 100%; }
+.sketch .lower { fill: var(--cs-accent-soft); stroke: var(--cs-accent); stroke-width: 0.08; }
+.sketch .upper { fill: none; stroke: #d07a1f; stroke-width: 0.08; stroke-dasharray: 0.25 0.15; }
+
+/* Platform figure: black ink on white, one neon accent as a fill. Pieces placed in % of the 1855 x 843 box,
+   text sized in cqw of it (captions about 10 % smaller than in the Aeonik original, as Poppins runs wider).
+   A piece with data-lit shows its -lit icon, a lit layer fills its slab front and label plate, a lit bundle
+   strokes neon; data-dimmed on the section fades the unlit elements. */
+.pf { --pf-ink: #000; --pf-neon: #88ff82; container-type: inline-size; color: var(--pf-ink); user-select: none; }
+.pf-tools { justify-content: flex-end; }
+.pf > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pf polygon, .pf rect { fill: #fff; stroke: var(--pf-ink); stroke-width: 2; stroke-linejoin: round; }
+.pf .plate { stroke: none; }
+.pf polyline { fill: none; stroke: var(--pf-ink); stroke-width: 2; stroke-linejoin: round; }
+.pf .cables path { fill: none; stroke: var(--pf-ink); stroke-width: 1.4; transition: stroke 0.25s ease; }
+.pf .cables circle { fill: var(--pf-ink); }
+.pf .cables .hit { fill: transparent; stroke: transparent; stroke-width: 18; pointer-events: all; }
+.pf .links { pointer-events: none; }
+.pf .links line { stroke: var(--pf-ink); stroke-width: 1.5; stroke-dasharray: 5 6; }
+.pf .el { position: absolute; transition: opacity 0.25s ease; }
+.pf .el img { display: block; width: 100%; height: auto; max-height: none; }
+.pf .el .lit { position: absolute; inset: 0; opacity: 0; transition: opacity 0.25s ease; }
+.pf .cap { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 0.1cqw; font-size: 1.26cqw; line-height: 1; white-space: nowrap; }
+.pf .cap.big, .pf .lab { font-weight: 500; font-size: 1.56cqw; line-height: 1; letter-spacing: 0.02em; text-transform: uppercase; }
+.pf .lab { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; }
+.pf .el, .pf .slab, .pf .blk, .pf .hit, .pf .lab { cursor: pointer; }
+.pf .el[data-lit] .lit { opacity: 1; }
+.pf .el[data-lit] .cap { font-weight: 500; font-size: 1.35cqw; line-height: 1.15; margin-top: -0.06cqw; }
+.pf .el[data-lit] .cap.big { font-size: 1.56cqw; line-height: 1; margin-top: 0.1cqw; }
+.pf .slab[data-lit] > polygon:nth-of-type(2), .pf .blk[data-lit] > .plate { fill: var(--pf-neon); }
+.pf .cables[data-lit] path:not(.hit) { stroke: var(--pf-neon); stroke-width: 3.2; }
+[data-dimmed] .pf .el:not([data-lit]) { opacity: 0.25; }
+@media (prefers-reduced-motion: reduce) { .pf .el, .pf .el .lit, .pf .cables path { transition: none; } }

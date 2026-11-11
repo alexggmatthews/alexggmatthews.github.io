@@ -2,8 +2,9 @@
 
 # Dr Alexander G D G Matthews
 
-**Staff Research Scientist, Google DeepMind**  
-**Distinguished Visitor, Cavendish Laboratory, University of Cambridge**
+**Member of Technical Staff, CuspAI**  
+**Distinguished Visitor, Cavendish Laboratory, University of Cambridge**  
+**Formerly Staff Scientist, Google DeepMind**
 
 I work on machine learning theory, AI for science, probabilistic modelling,
 generative modelling, and the AI–physics interface.
